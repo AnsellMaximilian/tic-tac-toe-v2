@@ -1,0 +1,49 @@
+.game-over {
+    width: 75%;
+    height: 230px;
+    max-width: 100%;
+    background-image: url('../images/wood.jpg');
+    position: absolute;
+    top: 40%; right: 50%;
+    transform: translate(50%, -50%);
+    border: 15px solid brown;
+    color: white;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.521);
+    font-size: 2em;
+    font-weight: bold;
+    animation: appear 0.5s ease-out;
+    /* animation-delay: 3s; */
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.534), inset -5px -5px 5px  rgba(0, 0, 0, 0.534), 5px 5px 5px rgba(128, 128, 128, 0.445);;
+}
+
+.game-over {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+
+}
+
+.again {
+    width: 200px;
+    max-width: 60%;
+    background-color: white;
+    text-shadow: none;
+    font-size: 30px;
+    padding: 10px;
+    color: black;
+    border: 5px solid rgb(230, 230, 230);
+    box-shadow: 5px 5px 5px rgba(53, 53, 53, 0.445);
+    transition: all 0.25s;
+    cursor: pointer;
+}
+
+.again:hover {
+    transform: scale(0.95);
+}
+
+@keyframes appear {
+    from {transform: translate(50%, -200%);}
+    to {transform: translate(50%, -50%);}
+}

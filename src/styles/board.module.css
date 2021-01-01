@@ -1,0 +1,65 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.board {
+    width: 350px;
+    height: 350px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.445);
+    border: 10px solid rgb(230, 230, 230);
+}
+
+.tile {
+    border: 5px solid rgb(230, 230, 230);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bolder;
+    box-shadow: inset 5px 5px 5px rgba(128, 128, 128, 0.507), inset -5px -5px 5px  rgba(128, 128, 128, 0.507);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.tile:hover {
+    box-shadow: none;
+    font-size: 45px;
+}
+
+.tile-value {
+    height: max-content;
+}
+
+.scores{
+    display: flex;
+    justify-content: space-between;
+}
+
+.score {
+    background-color: white;
+    box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.445);
+    border: 10px solid rgb(230, 230, 230);
+    padding: 15px 15px;
+    font-size: 35px;
+    min-width: 30%;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.score > span {
+    font-size: 20px;
+    
+}
