@@ -22,9 +22,9 @@ function App() {
 
   const setScore = (player: Player) => {
     if(player === playerOne){
-      setPlayerOne(player => ({...player, score: player.score + 1}))
+      setPlayerOne((player: Player) => ({...player, score: player.score + 1}))
     }else{
-      setPlayerTwo(player => ({...player, score: player.score + 1}))
+      setPlayerTwo((player: Player) => ({...player, score: player.score + 1}))
     }
     
   }
