@@ -1,11 +1,11 @@
 import React from 'react'
 
-import {Player, Computer} from '../types/types';
+import {Player} from '../types/types';
 
 import styles from '../styles/game-over.module.css';
 
 type Props = {
-    winner: Player | Computer | null,
+    winner: Player | null,
     draw: boolean
     reset: Function
 }

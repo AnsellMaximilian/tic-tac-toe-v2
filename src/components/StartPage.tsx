@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 
 import styles from '../styles/start-page.module.css';
 
-import {Player, Computer} from '../types/types';
+import {Player} from '../types/types';
 
 type Props = Readonly<{
-    mode: 'pvp' | 'pvc',
-    setMode: Function,
     setPlayerOne: Function,
     setPlayerTwo: Function,
-    setIsGameOn: Function
+    setIsGameOn: Function,
+    playerOne: Player,
+    playerTwo: Player
 }>
 
 export default function StartPage(props: Props): React.ReactElement<Props>{
@@ -18,13 +18,24 @@ export default function StartPage(props: Props): React.ReactElement<Props>{
     const [playerTwoName, setPlayerTwoName] = useState('');
 
     const start = (): void => {
-        props.setPlayerOne((player: Player) => ({...player, name: playerOneName || player.name, tile: 'x'}));
-        if(props.mode === 'pvp'){
-            props.setPlayerTwo((player: Player) => ({...player, name: playerTwoName || player.name, tile: 'o'}));
-        }else {
-            props.setPlayerTwo((player: Computer) => ({name: "Computer", score: 0, tile: 'o'}));
-        }
+        props.setPlayerOne((player: Player) => ({...player, name: playerOneName || player.name}));
+        props.setPlayerTwo((player: Player) => ({...player, name: playerTwoName || player.name}));
         props.setIsGameOn(true);
+    }
+
+    const switchTile = () => {
+        props.setPlayerOne((player: Player) => {
+            return {
+                ...player,
+                tile: player.tile === 'x' ? 'o' : 'x'
+            }
+        })
+        props.setPlayerTwo((player: Player) => {
+            return {
+                ...player,
+                tile: player.tile === 'x' ? 'o' : 'x'
+            }
+        })
     }
 
     return (
@@ -42,7 +53,10 @@ export default function StartPage(props: Props): React.ReactElement<Props>{
 
             <div className={styles.options}>
                 <div className={styles.options__left}>
-                    <div className={styles['mode-instruction']}>
+                    <div>
+                        Source can be found on <a href="https://github.com/AnsellMaximilian/tic-tac-toe-v2">Github</a>
+                    </div>
+                    {/* <div className={styles['mode-instruction']}>
                         CHOOSE MODE
                     </div>
                     <div className={styles.radios}>
@@ -62,12 +76,15 @@ export default function StartPage(props: Props): React.ReactElement<Props>{
                                 Player vs. Player
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.options__right}>
                     <div className={styles.names}>
                         <div className={styles['name-input']}>
-                            <div className={styles.tile}>X</div>
+                            <div className={styles.tile} onClick={switchTile}>
+                                {props.playerOne.tile}
+                                <div className={`${styles.switch} ${styles['switch-left']}`}></div>
+                            </div>
                             <input 
                                 type="text" 
                                 name="playerOne" 
@@ -77,19 +94,17 @@ export default function StartPage(props: Props): React.ReactElement<Props>{
                             />
                         </div>
                         <div className={styles['name-input']}>
-                            <div className={styles.tile}>O</div>
-                            {
-                                props.mode === 'pvc' ?
-                                <div>Computer Is Ready</div>
-                                :
-                                <input 
-                                    type="text" 
-                                    name="playerOne" 
-                                    placeholder="Player 2 name"
-                                    value={playerTwoName}
-                                    onChange={(e) => setPlayerTwoName(e.target.value)}
-                                />
-                            }                           
+                            <div className={styles.tile} onClick={switchTile}>
+                                {props.playerTwo.tile}
+                                <div className={`${styles.switch} ${styles['switch-right']}`}></div>
+                            </div>
+                            <input 
+                                type="text" 
+                                name="playerOne" 
+                                placeholder="Player 2 name"
+                                value={playerTwoName}
+                                onChange={(e) => setPlayerTwoName(e.target.value)}
+                            />
                         </div> 
 
                     </div>

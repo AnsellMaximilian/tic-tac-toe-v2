@@ -1,8 +1,17 @@
 .start {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; */
+    position: relative;
     height: 100%;
+    overflow: hidden;
+}
+
+.info {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    animation: info 3s;
 }
 
 .info__header {
@@ -17,10 +26,14 @@
 
 .options {
     padding: 25px;
-    height: 40%;
+    /* height: 40%; */
     background-color: white;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    animation: options 3s;
 }
 
 .options__right {
@@ -62,7 +75,61 @@
     line-height: 30px;
     padding: 0;
     margin-right: 5px;
+    position: relative;
 }
+
+.tile > .switch {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+    right: 50%;
+    color: transparent;
+    background-color: rgb(173, 173, 173);
+    font-weight: bold;
+    transition: box-shadow 0.25s;
+    cursor: pointer;
+    line-height: 35px;
+}
+
+.tile:hover > .switch {
+    width: 105%;
+    height: 105%;
+    font-size: 25px;
+    color: black;
+    box-shadow: inset 5px 5px 5px rgba(109, 109, 109, 0.466), inset -5px -5px 5px rgba(109, 109, 109, 0.466);
+}
+
+.tile:hover > .switch::before{
+    content: "^";
+    position: absolute;
+    top: 50%;
+    transform: translate(50%, -60%);
+    right: 50%;
+    color: black;
+    font-size: 17.5px;
+    width: 100%;
+    height: 100%;
+    font-weight: bolder;
+}
+
+.tile:hover > .switch::after{
+    font-weight: bolder;
+    font-size: 17.5px;
+    content: "^";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(50%, -40%) rotate(180deg);
+    right: 50%;
+    color: black;
+}
+
+/* .tile > .switch-left {
+    transform: translate(50%, -50%) rotate(180deg);
+} */
 
 .name-input input{
     width: 100%;
@@ -119,3 +186,42 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
+
+
+@keyframes info {
+    from {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    60% {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    to{
+        top: 0;
+        transform: translateY(0)
+    }
+}
+
+@keyframes options {
+    from {
+        bottom: 0;
+        transform: translateY(100%);
+    }
+    60% {
+        bottom: 0;
+        transform: translateY(100%);
+    }
+    to{
+        bottom: 0;
+        transform: translateY(0)
+    }
+}
+
+@media (max-width: 4800px){
+    .options__left > div {
+        text-align: left;
+        font-size: 25px;
+    }
+}
+

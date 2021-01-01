@@ -7,27 +7,34 @@ import Board from './components/Board';
 import GameOver from './components/GameOver';
 
 // Types
-import { Player, Computer, TileArray } from './types/types';
+import { Player, TileArray } from './types/types';
 
 function App() {
 
-  const [mode, setMode] = useState<'pvp' | 'pvc'>('pvp');
   const [playerOne, setPlayerOne] = useState<Player>({name: 'Player One', score: 0, tile: 'x'});
-  const [playerTwo, setPlayerTwo] = useState<Player | Computer>({name: 'Player Two', score: 0, tile: 'o'});
+  const [playerTwo, setPlayerTwo] = useState<Player>({name: 'Player Two', score: 0, tile: 'o'});
   const [isGameOn, setIsGameOn] = useState<boolean>(false);
   const [tiles, setTiles] = useState<TileArray>(new Array(9).fill(null));
-  const [winner, setWinner] = useState<Player | Computer | null>(null);
+  const [winner, setWinner] = useState<Player | null>(null);
   const [winCombo, setWinCombo] = useState<Array<number>>([])
   const [draw, setDraw] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
-  const setScore = (player: Player | Computer) => {
+  const setScore = (player: Player) => {
     if(player === playerOne){
       setPlayerOne(player => ({...player, score: player.score + 1}))
     }else{
       setPlayerTwo(player => ({...player, score: player.score + 1}))
     }
     
+  }
+ 
+  const backToMenu = () => {
+    reset();
+    setIsGameOn(false);
+    setPlayerOne({name: 'Player One', score: 0, tile: 'x'});
+    setPlayerTwo({name: 'Player Two', score: 0, tile: 'o'})
+
   }
 
   const reset = () => {
@@ -47,7 +54,7 @@ function App() {
      {
        isGameOn ?
        <Board 
-        mode={mode}
+        backToMenu={backToMenu}
         playerOne={playerOne}
         playerTwo={playerTwo}
         tiles={tiles}
@@ -62,8 +69,8 @@ function App() {
        />
        :
        <StartPage 
-        setMode={setMode} 
-        mode={mode} 
+        playerOne={playerOne}
+        playerTwo={playerTwo}
         setPlayerOne={setPlayerOne} 
         setPlayerTwo={setPlayerTwo}
         setIsGameOn={setIsGameOn}

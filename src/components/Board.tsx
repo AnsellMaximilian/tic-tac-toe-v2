@@ -1,49 +1,49 @@
 import React, {useState} from 'react'
 
-import {Player, Computer, TileArray} from '../types/types';
+import {Player, TileArray} from '../types/types';
 
 import crack from '../images/crack.jpg';
 
 import styles from '../styles/board.module.css';
 
 type Props = {
-    mode: 'pvp' | 'pvc',
     playerOne: Player,
-    playerTwo: Player | Computer,
+    playerTwo: Player,
     tiles: TileArray,
     setTiles: Function,
     setWinner: Function,
     setWinCombo: Function,
+    backToMenu: Function
     setDraw: Function
     winCombo: Array<number>,
     draw: boolean,
-    winner: Player | Computer | null,
+    winner: Player | null,
     setScore: Function
     
 }
 
 export default function Board(props: Props): React.ReactElement {
 
-    const [playerOnTurn, setPlayerOnTurn] = useState<Player | Computer>(props.playerOne);
+    const [playerOnTurn, setPlayerOnTurn] = useState<Player>(props.playerOne);
 
     const winningCombos = [ [3, 4, 5], [0, 1, 2], [6, 7, 8], // Horizontal
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
       [0, 4, 8], [2, 4, 6] // Diagonal
     ];
   
-    const checkWin = (tiles: TileArray, player: Player | Computer) => {
+    const checkWin = (tiles: TileArray) => {
         let finished = false;
         winningCombos.forEach(combo => {
             let win = true;
             combo.forEach(tile => {
-                if(tiles[tile] !== player.tile) win = false;
+                if(tiles[tile] !== playerOnTurn.tile) win = false;
             })
             
             if(win){
                 console.log('fag')
-                props.setWinner(player);
+                props.setWinner(playerOnTurn);
                 props.setWinCombo(combo);
-                props.setScore(player);
+                props.setScore(playerOnTurn);
                 finished = true;
             }else if(tiles.every(tile => tile) && !finished){
                 props.setDraw(true);
@@ -60,37 +60,13 @@ export default function Board(props: Props): React.ReactElement {
                 }
                 return tile;
             })
-            checkWin(newTiles, playerOnTurn);
+            checkWin(newTiles);
 
             return newTiles;
         })
-        setPlayerOnTurn((player: Player | Computer) => {
+        setPlayerOnTurn((player: Player) => {
             if(player === props.playerOne){
-                if(props.mode === 'pvp'){
-                    return props.playerTwo;
-                }else {
-                    props.setTiles((tiles: TileArray) => {
-                        const posTiles = tiles.map((t, i) => {
-                            if(t || i === index){
-                                return null;
-                            }
-                            return i;
-                        }).filter(i => i !== null)
-
-                        const comIdx = posTiles[Math.floor(Math.random() * posTiles.length)];
-                        const newTiles = tiles.map((tile, tileIdx) => {
-                            if(tileIdx === comIdx){
-                                return props.playerTwo.tile;
-                            }
-                            return tile;
-                        })
-                        console.log({posTiles, comIdx, newTiles})
-                        checkWin(newTiles, props.playerTwo);
-            
-                        return newTiles;
-                    })
-                    return props.playerOne;
-                }
+                return props.playerTwo;
                
             }else {
                 return props.playerOne;
@@ -100,6 +76,7 @@ export default function Board(props: Props): React.ReactElement {
 
     return (
         <div className={styles.container}>
+            <div className={styles.back} onClick={(e) => props.backToMenu()}>Go Back</div>
             <div className={styles.board}>
                 {
                     props.tiles.map((tile, index) => {
@@ -119,19 +96,17 @@ export default function Board(props: Props): React.ReactElement {
                 }
             </div>
             <div className={styles.scores}>
-                <div className={styles.score}>
-                    {playerOnTurn === props.playerOne ? <span>On Turn</span> : null}
+                <div className={`${styles.score} ${playerOnTurn === props.playerOne && styles['on-turn']}`}>
                     <div>
-                        {props.playerOne.name}
+                        {`${props.playerOne.name} (${props.playerOne.tile})`}
                     </div>
                     <div>
                         {props.playerOne.score}
                     </div>
                 </div>
-                <div className={styles.score}>
-                    {playerOnTurn === props.playerTwo ? <span>On Turn</span> : null}
+                <div className={`${styles.score} ${playerOnTurn === props.playerTwo && styles['on-turn']}`}>
                     <div>
-                        {props.playerTwo.name}
+                        {`${props.playerTwo.name} (${props.playerTwo.tile})`}
                     </div>
                     <div>
                         {props.playerTwo.score}
